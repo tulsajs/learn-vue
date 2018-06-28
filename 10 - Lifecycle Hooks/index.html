@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Vue Lesson 10 Lifecycle Hooks</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+  <!-- development version, includes helpful console warnings -->
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <!-- production version, optimized for size and speed -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+</head>
+
+<body>
+  <div id="example">
+    <button v-on:click="addOne">click me {{a}}</button>
+    <button v-on:click="destroyMe">click me unmount</button>
+  </div>
+  <img src="./lifecycle.png" style="width: 100%;" />
+</body>
+
+<script>
+  var vm = new Vue({
+    el: '#example',
+    data: {
+      a: 1,
+    },
+    methods: {
+      addOne: function () {
+        this.a = this.a + 1;
+      },
+      destroyMe: function () {
+        this.$destroy();
+      }
+    },
+    // called before an instance is created
+    beforeCreate: function () {
+      console.log('before create')
+    },
+    // called after an instance is created
+    created: function () {
+      console.log('created: a is: ' + this.a)
+    },
+    // called before an instance is mounted
+    beforeMount: function () {
+      console.log('before mount')
+    },
+    // called after the instance has been mounted
+    mounted: function () {
+      console.log('mounted: a is: ' + this.a);
+
+      this.$nextTick(function () {
+        console.log('all components mounted');
+        // Code that will run only after the
+        // entire view has been rendered
+      })
+    },
+    // called before an instance is updated
+    beforeUpdate: function () {
+      console.log('before update')
+    },
+    // called after an instance is updated
+    updated: function () {
+      console.log('updated: a is: ' + this.a)
+    },
+    // called before an instance is destroyed
+    beforeDestroy: function () {
+      console.log('before destroy')
+    },
+    // called after an instance is destroyed
+    destroyed: function () {
+      console.log('destroyed: a is: ' + this.a)
+    },
+  })
+</script>
+
+</html>

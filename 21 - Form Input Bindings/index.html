@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Vue Lesson 21 Form Input Bindings</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+  <!-- development version, includes helpful console warnings -->
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <!-- production version, optimized for size and speed -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+</head>
+
+<body>
+  <div id="example">
+    <input v-model="message" placeholder="edit me">
+    <p>Message is: {{ message }}</p>
+
+    <!-- Interpolation on textareas 
+    (<textarea>{{text}}</textarea>) won't work.
+    Use v-model instead. -->
+    <span>Multiline message is:</span>
+    <p style="white-space: pre-line;">{{ message2 }}</p>
+    <br>
+    <textarea v-model="message2" placeholder="add multiple lines"></textarea>
+
+
+    <input type="checkbox" id="checkbox" v-model="checked">
+    <label for="checkbox">{{ checked }}</label>
+  </div>
+
+  <div id='example-3'>
+    <div style="margin: 20px 0">
+      <input type="checkbox" id="jack" value="Jack" v-model="checkedNames">
+      <label for="jack">Jack</label>
+      <input type="checkbox" id="john" value="John" v-model="checkedNames">
+      <label for="john">John</label>
+      <input type="checkbox" id="mike" value="Mike" v-model="checkedNames">
+      <label for="mike">Mike</label>
+      <br>
+      <span>Checked names: {{ checkedNames }}</span>
+    </div>
+
+    <div style="margin: 20px 0">
+      <input type="radio" id="one" value="One" v-model="picked">
+      <label for="one">One</label>
+      <br>
+      <input type="radio" id="two" value="Two" v-model="picked">
+      <label for="two">Two</label>
+      <br>
+      <span>Picked: {{ picked }}</span>
+    </div>
+
+
+    <div style="margin: 20px 0">
+      <select v-model="selected">
+        <option disabled value="">Please select one</option>
+        <option>A</option>
+        <option>B</option>
+        <option>C</option>
+      </select>
+      <span>Selected: {{ selected }}</span>
+    </div>
+  </div>
+
+  <!-- Dynamic options rendered with v-for: -->
+  <div id='example-4'>
+    <div style="margin: 20px 0">
+      <select v-model="selected">
+        <option v-for="option in options" v-bind:value="option.value">
+          {{ option.text }}
+        </option>
+      </select>
+      <span>Selected: {{ selected }}</span>
+    </div>
+  </div>
+</body>
+
+<script>
+  var example = new Vue({
+    el: '#example',
+    data: {
+      message: '',
+      message2: '',
+      checked: true
+    }
+  })
+
+
+  new Vue({
+    el: '#example-3',
+    data: {
+      checkedNames: [],
+      picked: '',
+      selected: '',
+      value: []
+    }
+  })
+
+  var example4 = new Vue({
+    el: '#example-4',
+    data: {
+      selected: 'A',
+      options: [
+        { text: 'One', value: 'A' },
+        { text: 'Two', value: 'B' },
+        { text: 'Three', value: 'C' }
+      ]
+    }
+  })
+</script>
+
+</html>

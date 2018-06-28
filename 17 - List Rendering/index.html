@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Vue Lesson 17 List Rendering</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+  <!-- development version, includes helpful console warnings -->
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <!-- production version, optimized for size and speed -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+</head>
+
+<body>
+  <!-- initial example -->
+  <ul id="example-1">
+    <!-- To give Vue a hint so that it can track each node’s
+    identity, and thus reuse and reorder existing elements, 
+    you need to provide a unique key attribute for each item -->
+    <li v-for="item in items" :key="item.id">
+      {{ item.message }}
+    </li>
+  </ul>
+
+  <!-- with index -->
+  <ul id="example-2">
+    <li v-for="(item, index) in items">
+      {{ parentMessage }} - {{ index }} - {{ item.message }}
+    </li>
+  </ul>
+
+  <!-- with an object -->
+  <ul id="v-for-object" class="demo">
+    <li v-for="value of object">
+      {{ value }}
+    </li>
+
+    <!-- with key -->
+    <div v-for="(value, key) in object">
+      {{ key }}: {{ value }}
+    </div>
+
+    <!-- with key and index -->
+    <div v-for="(value, key, index) in object">
+      {{ index }}. {{ key }}: {{ value }}
+    </div>
+  </ul>
+</body>
+
+<script>
+  // Vue wraps an observed array’s mutation methods
+  // so they will also trigger view updates.
+  // The wrapped methods are:
+  // push()
+  // pop()
+  // shift()
+  // unshift()
+  // splice()
+  // sort()
+  // reverse()
+
+  // When working with non-mutating methods, you can
+  // replace the old array with the new one:
+  // example1.items = example1.items.filter(function (item) {
+  //   return item.message.match(/Foo/)
+  // })
+
+  // Caveats
+  // When you directly set an item with the index, e.g.vm.items[indexOfItem] = newValue
+  // When you modify the length of the array, e.g.vm.items.length = newLength
+
+  // use
+  // vm.$set(vm.items, indexOfItem, newValue)
+  // and
+  // vm.items.splice(newLength)
+  // instead
+
+  // Adding new Reactive properties
+  // vm.userProfile = Object.assign({}, vm.userProfile, {
+  //   age: 27,
+  //   favoriteColor: 'Vue Green'
+  // })
+
+  var example1 = new Vue({
+    el: '#example-1',
+    data: {
+      items: [
+        { id: 1, message: 'Foo' },
+        { id: 2, message: 'Bar' }
+      ]
+    }
+  })
+
+  var example2 = new Vue({
+    el: '#example-2',
+    data: {
+      parentMessage: 'Parent',
+      items: [
+        { message: 'Foo' },
+        { message: 'Bar' }
+      ]
+    }
+  })
+
+  new Vue({
+    el: '#v-for-object',
+    data: {
+      object: {
+        firstName: 'John',
+        lastName: 'Doe',
+        age: 30
+      }
+    }
+  })
+</script>
+
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Vue Lesson 18 Filtered/Sorted Results</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+  <!-- development version, includes helpful console warnings -->
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <!-- production version, optimized for size and speed -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+</head>
+
+<body>
+  <div id="example">
+    <ul>
+      <li v-for="n in evenNumbers">{{ n }}</li>
+    </ul>
+
+    <!-- In situations where computed properties are not 
+    feasible (e.g. inside nested v-for loops), 
+    you can use a method: -->
+    <ul>
+      <li v-for="n in even(numbers)">{{ n }}</li>
+    </ul>
+
+    <!-- v-for can also take an integer.
+    In this case it will repeat the template that many times. -->
+    <span v-for="n in 10">{{ n }} </span>
+
+    <!-- Similar to template v-if, you can also use a <template> 
+    tag with v-for to render a block of multiple elements.
+    For example: -->
+    <ul>
+      <template v-for="item in items">
+        <li>{{ item.msg }}</li>
+      </template>
+    </ul>
+
+    <!-- conditionally render list items -->
+    <li v-for="item in items" v-if="!item.isComplete">
+      {{ item.msg }}
+    </li>
+  </div>
+</body>
+
+<script>
+  var example = new Vue({
+    el: '#example',
+    data: {
+      items: [{ msg: 'Hi', isComplete: true }, { msg: 'World', isComplete: false }],
+      numbers: [1, 2, 3, 4, 5]
+    },
+    computed: {
+      evenNumbers: function () {
+        return this.numbers.filter(function (number) {
+          return number % 2 === 0
+        })
+      }
+    },
+    methods: {
+      even: function (numbers) {
+        return numbers.filter(function (number) {
+          return number % 2 === 0
+        })
+      }
+    }
+  })
+</script>
+
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Vue Lesson 15 Class and Style Binding</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+  <!-- development version, includes helpful console warnings -->
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <!-- production version, optimized for size and speed -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+</head>
+
+<body>
+  <div id="example">
+    <div :class="{ active: isActive }">Test</div>
+
+    <div class="uppercase" v-bind:class="{ active: isActive, 'text-danger': hasError }">
+      Test 2
+    </div>
+
+    <!-- Using a Object -->
+    <div v-bind:class="classObject">classObject</div>
+
+    <!-- Using a computed property -->
+    <div v-bind:class="classObject2">classObject2</div>
+
+    <!-- We can pass an array to v-bind:class to apply a list of classes: -->
+    <div v-bind:class="[activeClass, errorClass]">Array</div>
+
+    <!-- Array object syntax -->
+    <div v-bind:class="[{ active: isActive }, errorClass]">Array object syntax</div>
+
+    <!-- When you use the class attribute on a custom component, 
+    those classes will be added to the component’s root element. 
+    Existing classes on this element will not be overwritten. -->
+    <my-component class="active text-danger"></my-component>
+
+
+    <div v-bind:style="{ color: activeColor, fontSize: fontSize + 'px' }">Inline</div>
+
+    <div v-bind:style="styleObject">Inline Styled Object</div>
+  </div>
+</body>
+
+<script>
+  Vue.component('my-component', {
+    template: '<p class="foo bar">Hi</p>'
+  })
+
+  var vm = new Vue({
+    el: '#example',
+    data: {
+      styleObject: {
+        color: 'red',
+        fontSize: '13px'
+      },
+      activeColor: 'red',
+      fontSize: 30,
+      activeClass: 'active',
+      errorClass: 'text-danger',
+      error: {
+        type: 'fatal'
+      },
+      isActive: true,
+      hasError: true,
+      classObject: {
+        active: false,
+        'text-danger': true
+      }
+    },
+    computed: {
+      classObject2: function () {
+        return {
+          active: this.isActive && !this.error,
+          'text-danger': this.error && this.error.type === 'fatal'
+        }
+      }
+    }
+  })
+</script>
+<style>
+  .uppercase {
+    text-transform: uppercase;
+  }
+
+  .active {
+    background-color: peachpuff;
+  }
+
+  .text-danger {
+    color: red;
+  }
+</style>
+
+</html>

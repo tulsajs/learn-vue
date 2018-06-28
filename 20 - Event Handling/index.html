@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Vue Lesson 20 Event Handling</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+  <!-- development version, includes helpful console warnings -->
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <!-- production version, optimized for size and speed -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+</head>
+
+<body>
+  <div id="example-1">
+    <button v-on:click="counter += 1">Add 1</button>
+    <p>The button above has been clicked {{ counter }} times.</p>
+  </div>
+
+  <div id="example-2">
+    <!-- `greet` is the name of a method defined below -->
+    <button v-on:click="greet">Greet</button>
+  </div>
+
+  <div id="example-3">
+    <button v-on:click="say('hi')">Say hi</button>
+    <button v-on:click="say('what')">Say what</button>
+
+    <button v-on:click="warn('Form cannot be submitted yet.', $event)">
+      Submit
+    </button>
+
+    <!-- .enter .tab .delete (captures both “Delete” and “Backspace” keys) 
+    .esc .space .up .down .left .right -->
+    <input @keyup.up="say('yo you pressed up')" @keyup.enter="say('yo you pressed enter')">
+  </div>
+
+
+</body>
+
+<script>
+  var example1 = new Vue({
+    el: '#example-1',
+    data: {
+      counter: 0
+    }
+  })
+
+  var example2 = new Vue({
+    el: '#example-2',
+    data: {
+      name: 'Vue.js'
+    },
+    // define methods under the `methods` object
+    methods: {
+      greet: function (event) {
+        // `this` inside methods points to the Vue instance
+        alert('Hello ' + this.name + '!')
+        // `event` is the native DOM event
+        if (event) {
+          alert(event.target.tagName)
+        }
+      }
+    }
+  })
+
+  // you can invoke methods in JavaScript too
+  //example2.greet() // => 'Hello Vue.js!'
+
+
+  new Vue({
+    el: '#example-3',
+    methods: {
+      say: function (message) {
+        alert(message)
+      },
+      warn: function (message, event) {
+        // now we have access to the native event
+        if (event) event.preventDefault()
+        alert(message)
+      }
+    }
+  })
+</script>
+
+</html>
